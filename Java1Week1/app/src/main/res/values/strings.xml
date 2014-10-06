@@ -4,5 +4,9 @@
     <string name="app_name">Java1Week1</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <string-array name="userList">
+
+    </string-array>
 
 </resources>
