@@ -1,6 +1,7 @@
 package android.fullsail.com.java1week1;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -98,45 +99,14 @@ public class MyActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                // find index and display in alert
-                
-
-            }
-
-
-        });
-
-
-        /*// button event listener - user input for collection
-        Button sbutton = (Button) findViewById(R.id.sbutton);
-        sbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i(TAG, "Search Button Clicked");
-
-                // add alert that item has been added
-                Toast indexAlert;
-                indexAlert = Toast.makeText(getApplicationContext(), "Item: " + indexInput.getText() + " = "inputList[indexInput.getText()], Toast.LENGTH_LONG);
-                indexAlert.show();
-
-                // display index selection in alert
-
-
-
-
-
+                // show input based on index selection
 
 
             }
 
 
 
-
-
-
-
         });
-*/
 
     }
 
