@@ -18,6 +18,7 @@
         <EditText
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:hint="Enter word or phrase"
             android:layout_height="wrap_content"
             android:id="@+id/usertxt" />
 
@@ -41,16 +42,29 @@
         android:layout_height="wrap_content"
         android:text="Average Length of Entries: 0"
         android:id="@+id/avgLength" />
-    <ListView
-        android:id="@+id/inputlist"
-        android:paddingTop="16dp"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:entries="@array/userList">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
 
-        </ListView>
 
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="Search entry #"
+            android:layout_height="wrap_content"
+            android:id="@+id/indexinput" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SEARCH"
+            android:id="@+id/sbutton" />
+
+
+    </LinearLayout>
 
 </LinearLayout>
