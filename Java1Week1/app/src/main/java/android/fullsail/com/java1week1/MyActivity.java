@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+
 
 import java.util.ArrayList;
 
@@ -19,6 +21,7 @@ public class MyActivity extends Activity {
 
     final String TAG = "Java Project";
     private TextView userInput;
+    private TextView indexInput;
     int entryNum;
 
 
@@ -44,8 +47,10 @@ public class MyActivity extends Activity {
                 inputList.add(userInput.getText().toString());
 
                 // add alert that item has been added
-                Toast inputAlert = Toast.makeText(getApplicationContext(), "Item Added!", Toast.LENGTH_LONG);
+                Toast inputAlert = Toast.makeText(getApplicationContext(), userInput.getText() + " Added!", Toast.LENGTH_LONG);
                 inputAlert.show();
+
+                userInput.setText("");
 
 
                 // Concatenate all strings in the list
@@ -62,15 +67,76 @@ public class MyActivity extends Activity {
 
                 // find average length of strings (divide char count in
                 // concatenation with total number of entries
-                int avgLength = listLength / charLength;
-    
+                int average = charLength / listLength;
+
+                // modify entryNum textview
+                TextView entryNum = (TextView) findViewById(R.id.entryNum);
+                entryNum.setText("Number of Entries: " + listLength);
+
+                // modify avgLength textview
+                TextView avgLength = (TextView) findViewById(R.id.avgLength);
+                avgLength.setText("Average Length of Entries: " + average);
+
+
+
 
 
 
 
             }
+
+
+
+
         });
 
+        //set references to user and result text field
+        indexInput = (TextView) findViewById(R.id.indexinput);
+
+        Button sbutton = (Button) findViewById(R.id.sbutton);
+        sbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // find index and display in alert
+                
+
+            }
+
+
+        });
+
+
+        /*// button event listener - user input for collection
+        Button sbutton = (Button) findViewById(R.id.sbutton);
+        sbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "Search Button Clicked");
+
+                // add alert that item has been added
+                Toast indexAlert;
+                indexAlert = Toast.makeText(getApplicationContext(), "Item: " + indexInput.getText() + " = "inputList[indexInput.getText()], Toast.LENGTH_LONG);
+                indexAlert.show();
+
+                // display index selection in alert
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+        });
+*/
 
     }
 
