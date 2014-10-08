@@ -16,6 +16,8 @@ import android.app.AlertDialog;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 
 public class MyActivity extends Activity {
@@ -35,7 +37,9 @@ public class MyActivity extends Activity {
 
         //set reference to user text field
         userInput = (TextView) findViewById(R.id.usertxt);
-        final ArrayList<String> inputList = new ArrayList<String> ();
+
+        // create set
+        final LinkedHashSet<String> inputList = new LinkedHashSet<String>();
 
         // button event listener - user input for collection
         Button button = (Button) findViewById(R.id.button);
@@ -43,66 +47,41 @@ public class MyActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                // loop through array and match input against existing array.
-                for(int i=0; i<inputList.size(); i++){
 
-                    // conditional based on duplicate detection.
-                    if (inputList.get(i) == userInput.getText()) {
-                        AlertDialog.Builder dupAlert = new AlertDialog.Builder(view.getContext());
-                        dupAlert.setTitle("Duplicate Entry Detected!");
-                        dupAlert.setMessage("Please try again.");
-                        dupAlert.setNeutralButton("OK", null);
+               // add text to array
+               inputList.add(userInput.getText().toString());
 
-                        AlertDialog dialog = dupAlert.create();
-                        dialog.show();
-                    }
-
-                    else {
-
-                        // add text to array
-                        inputList.add(userInput.getText().toString());
-
-                        // add alert that item has been added
-                        Toast inputAlert = Toast.makeText(getApplicationContext(), userInput.getText() + " Added!", Toast.LENGTH_LONG);
-                        inputAlert.show();
-
-                        // clear edittext field upon button click
-                        userInput.setText("");
-
-                        // Concatenate all strings in the list
-                        String complete = "";
-                        for(String string : inputList) {
-                            complete += string;
-                        }
-
-                        //determine length of array
-                        int listLength = inputList.size();
-
-                        // determine character count of array
-                        int charLength = complete.length();
-
-                        // find average length of strings (divide char count in
-                        // concatenation with total number of entries
-                        int average = charLength / listLength;
-
-                        // modify entryNum textview
-                        TextView entryNum = (TextView) findViewById(R.id.entryNum);
-                        entryNum.setText("Number of Entries: " + listLength);
-
-                        // modify avgLength textview
-                        TextView avgLength = (TextView) findViewById(R.id.avgLength);
-                        avgLength.setText("Average Length of Entries: " + average);
-                    }
-                }
+                // add alert that item has been added
+                Toast inputAlert = Toast.makeText(getApplicationContext(), "Data Updated.", Toast.LENGTH_LONG);
+                inputAlert.show();
 
 
+               // clear edittext field upon button click
+               userInput.setText("");
 
+               // Concatenate all strings in the list
+               String complete = "";
+               for(String string : inputList) {
+                   complete += string;
+               }
 
+               //determine length of array
+               int listLength = inputList.size();
 
+               // determine character count of array
+               int charLength = complete.length();
 
+               // find average length of strings (divide char count in
+               // concatenation with total number of entries
+               int average = charLength / listLength;
 
+               // modify entryNum textview
+               TextView entryNum = (TextView) findViewById(R.id.entryNum);
+               entryNum.setText("Number of Entries: " + listLength);
 
-
+               // modify avgLength textview
+               TextView avgLength = (TextView) findViewById(R.id.avgLength);
+               avgLength.setText("Average Length of Entries: " + average);
 
             }
 
@@ -128,12 +107,18 @@ public class MyActivity extends Activity {
 
                 // conditional - error detection for entry input.
                 if(entryInt <= inputList.size()) {
+
+                    // convert set to array
+                    Object[] convertList = inputList.toArray();
+
                     entryAlert.setTitle("Index: " + indexInput.getText());
-                    entryAlert.setMessage(inputList.get(entryInt));
+                    entryAlert.setMessage("Item: " + convertList[entryInt]);
                     entryAlert.setNeutralButton("OK", null);
 
                     AlertDialog dialog = entryAlert.create();
                     dialog.show();
+
+                    indexInput.setText("");
                 }
                 else {
                     entryAlert.setTitle("ERROR!");
@@ -142,6 +127,9 @@ public class MyActivity extends Activity {
 
                     AlertDialog dialog = entryAlert.create();
                     dialog.show();
+
+                    indexInput.setText("");
+
                 }
 
             }
