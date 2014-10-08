@@ -106,7 +106,7 @@ public class MyActivity extends Activity {
                 int entryInt = Integer.parseInt(entryString);
 
                 // conditional - error detection for entry input.
-                if(entryInt <= inputList.size()) {
+                if(entryInt <= (inputList.size()-1)) {
 
                     // convert set to array
                     Object[] convertList = inputList.toArray();
