@@ -1,12 +1,11 @@
 package android.fullsail.com.java1411;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,14 +13,16 @@ import android.widget.ListView;
 import android.app.AlertDialog;
 
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
-
+import java.util.List;
 
 
 public class MyActivity extends Activity {
 
-    // user input variables
+    // Global
     private TextView inputText;
+
 
     // data collection variables
     final LinkedHashSet<String> inputList = new LinkedHashSet<String>();
@@ -34,7 +35,7 @@ public class MyActivity extends Activity {
     int listLength;
     int charLength;
     int average;
-    int entryIndex;
+    int entryIndex = 0;
 
 
     @Override
@@ -42,51 +43,64 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
+
+
         // assign input to data references for collection
         inputText = (TextView) findViewById(R.id.userInput);
 
         // assign button reference
         Button button = (Button) findViewById(R.id.submitButton);
 
-
         // event listener for button
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                // add user text to hash set & clear visible entry
-                inputList.add(inputText.getText().toString());
-                clearInput();
+                // initiate error alert builder
+                AlertDialog.Builder errorAlert = new AlertDialog.Builder(view.getContext());
 
-                // populate listview
-                populateList();
 
-                /*
-                // used for debugging data collection issues
-                for(String string : inputList) {
-                    Log.d("HASH SET: ", string);
+                if (inputText.getText().toString().equals(""))
+                {
+                    errorAlert.setTitle("ERROR:");
+                    errorAlert.setMessage("Entries cannot be left Blank! Please try again.");
+                    errorAlert.setNeutralButton("OK", null);
+
+                    AlertDialog dialog = errorAlert.create();
+                    dialog.show();
                 }
-                */
+                else{
 
+                    // add user text to hash set & clear visible entry
+                    inputList.add(inputText.getText().toString());
+                    clearInput();
 
-                // concatenate strings within set
-                concatenateFunction();
+                    // populate listview
+                    populateList();
 
-                // determine average length of characters
-                findEntryCounts();
+                    // concatenate strings within set
+                    concatenateFunction();
 
-                // modify textviews
-                TextView entryCount = (TextView) findViewById(R.id.totalEntries);
-                entryCount.setText("Total Entries: " + listLength);
-                TextView avgLength = (TextView) findViewById(R.id.averageCharacters);
-                avgLength.setText("Average Characters: " + average);
+                    // determine average length of characters
+                    findEntryCounts();
 
+                    // modify textviews
+                    TextView entryCount = (TextView) findViewById(R.id.totalEntries);
+                    entryCount.setText("Total Entries: " + listLength);
+                    TextView avgLength = (TextView) findViewById(R.id.averageCharacters);
+                    avgLength.setText("Average Characters: " + average);
 
-
+                }
 
             }
 
         });
+
+        // set event listener for item selection
+        selectionAlert();
+
+
+
     }
 
 
@@ -132,9 +146,6 @@ public class MyActivity extends Activity {
         listLength = inputList.size();
         charLength = complete.length();
         average = charLength / listLength;
-
-
-
     }
 
 
@@ -149,6 +160,43 @@ public class MyActivity extends Activity {
         // configure & display listview
         visibleListView = (ListView) findViewById(R.id.visibleList);
         visibleListView.setAdapter(arrayAdapter);
+    }
+
+    private void selectionAlert(){
+
+        visibleListView = (ListView) findViewById(R.id.visibleList);
+        visibleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                TextView selected = (TextView) view;
+                String selection = selected.getText().toString();
+
+                // initiate alert
+                AlertDialog.Builder selectionAlert = new AlertDialog.Builder(view.getContext());
+
+                // convert set in order to locate & assign index
+                convertList = inputList.toArray();
+                String [] stringArray = inputList.toArray(new String[inputList.size()]);
+
+                List<String> indexList = Arrays.asList(stringArray);
+
+                // assign object index to integer for alert field
+                entryIndex = indexList.indexOf(selection);
+
+                // assign alert fields
+                selectionAlert.setTitle("ALERT!");
+                selectionAlert.setMessage("You have selected: " + selection);
+                selectionAlert.setNeutralButton("OK", null);
+
+                // display alert
+                AlertDialog dialog = selectionAlert.create();
+                dialog.show();
+
+            }
+        });
+
+
     }
 
 

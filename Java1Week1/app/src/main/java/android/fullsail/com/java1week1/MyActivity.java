@@ -47,6 +47,18 @@ public class MyActivity extends Activity {
             @Override
             public void onClick(View view) {
 
+                // initiate error alert builder
+                AlertDialog.Builder errorAlert = new AlertDialog.Builder(view.getContext());
+
+                if (userInput.getText().toString() == "")
+                {
+                    errorAlert.setTitle("ERROR:");
+                    errorAlert.setMessage("Entries cannot be left Blank! Please try again.");
+                    errorAlert.setNeutralButton("OK", null);
+
+                    AlertDialog dialog = errorAlert.create();
+                    dialog.show();
+                }
 
                // add text to array
                inputList.add(userInput.getText().toString());
