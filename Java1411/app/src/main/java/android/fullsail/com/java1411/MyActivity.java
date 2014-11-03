@@ -140,7 +140,7 @@ public class MyActivity extends Activity {
 
     }
 
-    private void findEntryCounts (){
+        private void findEntryCounts (){
 
         // determine average character amount
         listLength = inputList.size();
