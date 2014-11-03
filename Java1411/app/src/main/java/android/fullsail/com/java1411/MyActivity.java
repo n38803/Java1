@@ -11,19 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.app.AlertDialog;
 
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 
 
 public class MyActivity extends Activity {
-
-    Context context;
 
     // user input variables
     private TextView inputText;
@@ -47,17 +42,11 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        // assign activity context
-        context = this;
-
         // assign input to data references for collection
         inputText = (TextView) findViewById(R.id.userInput);
 
         // assign button reference
         Button button = (Button) findViewById(R.id.submitButton);
-
-        // initiate listview
-        visibleListView = (ListView) findViewById(R.id.visibleList);
 
 
         // event listener for button
@@ -69,10 +58,16 @@ public class MyActivity extends Activity {
                 inputList.add(inputText.getText().toString());
                 clearInput();
 
+                // populate listview
+                populateList();
+
+                /*
                 // used for debugging data collection issues
                 for(String string : inputList) {
                     Log.d("HASH SET: ", string);
                 }
+                */
+
 
                 // concatenate strings within set
                 concatenateFunction();
@@ -82,26 +77,9 @@ public class MyActivity extends Activity {
 
                 // modify textviews
                 TextView entryCount = (TextView) findViewById(R.id.totalEntries);
-                entryCount.setText("Number of Entries: " + listLength);
+                entryCount.setText("Total Entries: " + listLength);
                 TextView avgLength = (TextView) findViewById(R.id.averageCharacters);
-                avgLength.setText("Average Length of Entries: " + average);
-
-
-                // convert set to string array
-                String[] stringArray = inputList.toArray(new String[inputList.size()]);
-
-                // set array adapter & connect to listview
-
-                arrayAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, stringArray);
-                visibleListView.setAdapter(arrayAdapter);
-
-
-
-
-
-
-
-
+                avgLength.setText("Average Characters: " + average);
 
 
 
@@ -163,11 +141,13 @@ public class MyActivity extends Activity {
     private void populateList() {
 
         // convert set to string array
-        String[] stringArray = inputList.toArray(new String[inputList.size()]);
+        String [] stringArray = inputList.toArray(new String[inputList.size()]);
 
-        // initiate & display listview
+        // build array adapter
+        arrayAdapter = new ArrayAdapter(MyActivity.this, android.R.layout.simple_list_item_1, stringArray);
+
+        // configure & display listview
         visibleListView = (ListView) findViewById(R.id.visibleList);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, stringArray);
         visibleListView.setAdapter(arrayAdapter);
     }
 
