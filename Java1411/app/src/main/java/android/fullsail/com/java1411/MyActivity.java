@@ -1,7 +1,9 @@
 package android.fullsail.com.java1411;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,17 +23,23 @@ import java.util.LinkedHashSet;
 
 public class MyActivity extends Activity {
 
+    Context context;
+
     // user input variables
     private TextView inputText;
 
     // data collection variables
     final LinkedHashSet<String> inputList = new LinkedHashSet<String>();
+    private ListView visibleListView;
+    private ArrayAdapter arrayAdapter;
     String complete = "";
+    Object[] convertList;
 
     // math equation variables
     int listLength;
     int charLength;
     int average;
+    int entryIndex;
 
 
     @Override
@@ -39,14 +47,18 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-
+        // assign activity context
+        context = this;
 
         // assign input to data references for collection
         inputText = (TextView) findViewById(R.id.userInput);
 
-
         // assign button reference
         Button button = (Button) findViewById(R.id.submitButton);
+
+        // initiate listview
+        visibleListView = (ListView) findViewById(R.id.visibleList);
+
 
         // event listener for button
         button.setOnClickListener(new View.OnClickListener() {
@@ -57,11 +69,36 @@ public class MyActivity extends Activity {
                 inputList.add(inputText.getText().toString());
                 clearInput();
 
+                // used for debugging data collection issues
+                for(String string : inputList) {
+                    Log.d("HASH SET: ", string);
+                }
+
                 // concatenate strings within set
                 concatenateFunction();
 
                 // determine average length of characters
-                mathFunction();
+                findEntryCounts();
+
+                // modify textviews
+                TextView entryCount = (TextView) findViewById(R.id.totalEntries);
+                entryCount.setText("Number of Entries: " + listLength);
+                TextView avgLength = (TextView) findViewById(R.id.averageCharacters);
+                avgLength.setText("Average Length of Entries: " + average);
+
+
+                // convert set to string array
+                String[] stringArray = inputList.toArray(new String[inputList.size()]);
+
+                // set array adapter & connect to listview
+
+                arrayAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, stringArray);
+                visibleListView.setAdapter(arrayAdapter);
+
+
+
+
+
 
 
 
@@ -99,27 +136,40 @@ public class MyActivity extends Activity {
     // clear user input
     private void clearInput() {
         inputText.setText("");
+        complete = "";
     }
 
     private void concatenateFunction (){
 
-        // Concatenate all strings in the list
+        // Concatenate all strings in the set list
         for(String string : inputList) {
             complete += string;
         }
 
     }
-    private void mathFunction (){
 
-        // set length
+    private void findEntryCounts (){
+
+        // determine average character amount
         listLength = inputList.size();
-
-        // character count
         charLength = complete.length();
-
-        // average character count
         average = charLength / listLength;
 
+
+
     }
+
+
+    private void populateList() {
+
+        // convert set to string array
+        String[] stringArray = inputList.toArray(new String[inputList.size()]);
+
+        // initiate & display listview
+        visibleListView = (ListView) findViewById(R.id.visibleList);
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, stringArray);
+        visibleListView.setAdapter(arrayAdapter);
+    }
+
 
 }
