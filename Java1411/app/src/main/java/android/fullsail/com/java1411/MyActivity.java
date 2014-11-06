@@ -1,6 +1,8 @@
 package android.fullsail.com.java1411;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ public class MyActivity extends Activity {
     private ArrayAdapter arrayAdapter;
     String complete = "";
     Object[] convertList;
+    private boolean result = false;
 
     // math equation variables
     int listLength;
@@ -170,7 +173,7 @@ public class MyActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 TextView selected = (TextView) view;
-                String selection = selected.getText().toString();
+                final String selection = selected.getText().toString();
 
                 // initiate alert
                 AlertDialog.Builder selectionAlert = new AlertDialog.Builder(view.getContext());
@@ -179,15 +182,39 @@ public class MyActivity extends Activity {
                 convertList = inputList.toArray();
                 String [] stringArray = inputList.toArray(new String[inputList.size()]);
 
+
                 List<String> indexList = Arrays.asList(stringArray);
 
                 // assign object index to integer for alert field
                 entryIndex = indexList.indexOf(selection);
 
+
+
                 // assign alert fields
                 selectionAlert.setTitle("ALERT!");
                 selectionAlert.setMessage("You have selected: " + selection);
                 selectionAlert.setNeutralButton("OK", null);
+                selectionAlert.setNegativeButton("Remove",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            // remove selection from hash set
+                            inputList.remove(selection);
+
+                            // refresh listview
+                            populateList();
+
+                        }
+                    }
+                );
+
+
+
+
+
+
+
+
 
                 // display alert
                 AlertDialog dialog = selectionAlert.create();
@@ -198,6 +225,8 @@ public class MyActivity extends Activity {
 
 
     }
+
+
 
 
 }
