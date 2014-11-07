@@ -34,6 +34,7 @@ public class MyActivity extends Activity {
     Object[] convertList;
     private boolean result = false;
 
+
     // math equation variables
     int listLength;
     int charLength;
@@ -65,9 +66,9 @@ public class MyActivity extends Activity {
 
                 if (inputText.getText().toString().equals(""))
                 {
-                    errorAlert.setTitle("ERROR:");
-                    errorAlert.setMessage("Entries cannot be left Blank! Please try again.");
-                    errorAlert.setNeutralButton("OK", null);
+                    errorAlert.setTitle(R.string.error1_title);
+                    errorAlert.setMessage(R.string.error1_message);
+                    errorAlert.setNeutralButton((R.string.ok), null);
 
                     AlertDialog dialog = errorAlert.create();
                     dialog.show();
@@ -88,10 +89,7 @@ public class MyActivity extends Activity {
                     findEntryCounts();
 
                     // modify textviews
-                    TextView entryCount = (TextView) findViewById(R.id.totalEntries);
-                    entryCount.setText("Total Entries: " + listLength);
-                    TextView avgLength = (TextView) findViewById(R.id.averageCharacters);
-                    avgLength.setText("Average Characters: " + average);
+                    modifyViews();
 
                 }
 
@@ -151,6 +149,21 @@ public class MyActivity extends Activity {
         average = charLength / listLength;
     }
 
+    private void modifyViews(){
+
+        TextView entryCount = (TextView) findViewById(R.id.totalEntries);
+        entryCount.setText(R.string.total_entries);
+
+        TextView avgLength = (TextView) findViewById(R.id.averageCharacters);
+        avgLength.setText(R.string.average_characters);
+
+        TextView entryNum = (TextView) findViewById(R.id.entryNum);
+        entryNum.setText("" + listLength);
+
+        TextView charNum = (TextView) findViewById(R.id.charNum);
+        charNum.setText("" + average);
+    }
+
 
     private void populateList() {
 
@@ -191,21 +204,43 @@ public class MyActivity extends Activity {
 
 
                 // assign alert fields
-                selectionAlert.setTitle("ALERT!");
-                selectionAlert.setMessage("You have selected: " + selection);
-                selectionAlert.setNeutralButton("OK", null);
-                selectionAlert.setNegativeButton("Remove",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
+                selectionAlert.setTitle(R.string.alert_title);
+                selectionAlert.setMessage(selection);
+                selectionAlert.setNeutralButton((R.string.ok), null);
+                selectionAlert.setNegativeButton((R.string.remove),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
 
-                            // remove selection from hash set
-                            inputList.remove(selection);
+                                // remove selection from hash set
+                                inputList.remove(selection);
 
-                            // refresh listview
-                            populateList();
+                                // populate listview
+                                clearInput();
+                                populateList();
 
+
+                                // modify textviews
+                                if (listLength == 0) {
+
+                                    TextView entryNum = (TextView) findViewById(R.id.entryNum);
+                                    entryNum.setText("0");
+
+                                    TextView charNum = (TextView) findViewById(R.id.charNum);
+                                    charNum.setText("0");
+                                }
+                                else{
+                                    // concatenate strings within set
+                                    concatenateFunction();
+
+                                    // determine average length of characters
+                                    findEntryCounts();
+
+                                    modifyViews();
+                                }
+
+
+                            }
                         }
-                    }
                 );
 
 

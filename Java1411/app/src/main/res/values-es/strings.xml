@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pruebas Sólo</string>
+    <string name="activity_name">Funcionó!</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="total_entries">Entradas Totales: </string>
+    <string name="average_characters">Promedio Personajes: </string>
+    <string name="submit">Presentar</string>
+    <string name="add">Añadir una palabra</string>
+    <string name="ok">Ok</string>
+    <string name="remove">Quitar</string>
+    <string name="error1_title">ERROR:</string>
+    <string name="error1_message">Las entradas no se pueden dejar en blanco ! Por favor, inténtelo de nuevo.</string>
+    <string name="alert_title">Ha seleccionado: </string>
+
+
+</resources>
