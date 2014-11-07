@@ -12,8 +12,8 @@
     <string name="remove">Remove</string>
     <string name="error1_title">ERROR:</string>
     <string name="error1_message">Entries cannot be left Blank! Please try again.</string>
-    <string name="error2_title">ALERT!</string>
-    <string name="error2_message">You have selected: </string>
+    <string name="alert_title">You have selected:</string>
+
 
 
 </resources>
