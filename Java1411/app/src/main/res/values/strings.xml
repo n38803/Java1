@@ -3,8 +3,17 @@
 
     <string name="app_name">Just Testing</string>
     <string name="activity_name">It Worked!</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="total_entries">Total Entries: </string>
+    <string name="average_characters">Average Characters: </string>
+    <string name="submit">Submit</string>
+    <string name="add">Add a Word</string>
+    <string name="ok">OK</string>
+    <string name="remove">Remove</string>
+    <string name="error1_title">ERROR:</string>
+    <string name="error1_message">Entries cannot be left Blank! Please try again.</string>
+    <string name="error2_title">ALERT!</string>
+    <string name="error2_message">You have selected: </string>
 
 
 </resources>
