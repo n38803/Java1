@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Java1411-W3</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
 
@@ -12,12 +11,7 @@
         <item>Galaxy S5</item>
         <item>Galaxy Note 4</item>
         <item>Galaxy Note Edge</item>
-        <item>LG G3</item>
-        <item>LG G Flex</item>
-        <item>Moto X</item>
-        <item>Moto X Max</item>
-        <item>HTC One</item>
-        <item>HTC One Max</item>
+
 
     </string-array>
 

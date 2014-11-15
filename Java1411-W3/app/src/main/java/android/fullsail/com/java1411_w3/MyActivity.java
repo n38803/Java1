@@ -2,8 +2,11 @@ package android.fullsail.com.java1411_w3;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -15,7 +18,7 @@ import java.util.Arrays;
 public class MyActivity extends Activity {
 
     // assign views
-    private Spinner spinner;
+    private Spinner hspinner;
     private ArrayList handsetArrayList;
     // ListView listView = (ListView) findViewById(R.id.hList);
 
@@ -32,27 +35,44 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        spinner = (Spinner) findViewById(R.id.spinner);
+        hspinner = (Spinner) findViewById(R.id.spinner);
         handsetArrayList = new ArrayList<Handset>();
         ArrayAdapter<String> hAdapter;
 
         // assign object information
-        handsetArrayList.add(new Handset("iPhone 5c", "A6", "Sept. 2013"));
-        handsetArrayList.add(new Handset("iPhone 5s", "A7", "Sept. 2013"));
         handsetArrayList.add(new Handset("iPhone 6", "A8", "Sept. 2014"));
-        handsetArrayList.add(new Handset("iPhone 6plus", "A8", "Sept. 2014"));
+        handsetArrayList.add(new Handset("iPhone 6Plus", "A8", "Sept. 2014"));
         handsetArrayList.add(new Handset("Galaxy S5", "Snapdragon", "May 2014"));
         handsetArrayList.add(new Handset("Galaxy Note 4", "Snapdragon", "Oct. 2014"));
+        handsetArrayList.add(new Handset("Galaxy Note 4 Edge", "Snapdragon 508", "Nov. 2014"));
+
 
         // test assignment to Spinner.
         ArrayList<String> hList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.handsets)));
 
-        hAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1);
+        hAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, hList);
 
-        spinner.setAdapter((hAdapter));
+        hspinner.setAdapter((hAdapter));
+
+        // spinner event listener
+        hspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
 
+                // grabs selected item's position
+                hspinner.getSelectedItemPosition();
 
+
+                // change textview to match item position (matches hasmap key)
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
 
