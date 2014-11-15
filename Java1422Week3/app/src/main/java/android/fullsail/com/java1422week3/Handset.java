@@ -1,7 +1,9 @@
-// Phones.java
+package android.fullsail.com.java1422week3;
 
-
-public class Phone {
+/**
+ * Created by Shaun on 11/15/2014.
+ */
+public class Handset {
 
     // Phone variables
     private String mName;
@@ -10,10 +12,10 @@ public class Phone {
 
 
     // Class constructor
-    public Phone() {
+    public Handset() {
         mName = mRelease = mProcessor = "";
     }
-    public Phone(String _name, String _release, String _processor) {
+    public Handset(String _name, String _release, String _processor) {
         mRelease = _release;
         mName = _name;
         mProcessor = _processor;
@@ -22,11 +24,9 @@ public class Phone {
     public String getName() {
         return mName;
     }
-
     public String getRelease() {
         return mRelease;
     }
-
     public String getProcessor() {
         return mProcessor;
     }
@@ -36,15 +36,15 @@ public class Phone {
     public void setName(String _name) {
         mName = _name;
     }
-
     public void setRelease(String _release) {
         mRelease = _release;
     }
-
-
     public void setProcessor(String _processor) {
         mProcessor = _processor;
     }
 
-
+    @Override
+    public String toString() {
+        return "Device: " + mName + "\n Processor: " + mProcessor + "\n Release Year: " + mRelease;
+    }
 }

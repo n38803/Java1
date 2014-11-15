@@ -171,7 +171,7 @@ public class MyActivity extends Activity {
         String [] stringArray = inputList.toArray(new String[inputList.size()]);
 
         // build array adapter
-        arrayAdapter = new ArrayAdapter(MyActivity.this, android.R.layout.simple_list_item_1, stringArray);
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, stringArray);
 
         // configure & display listview
         visibleListView = (ListView) findViewById(R.id.visibleList);

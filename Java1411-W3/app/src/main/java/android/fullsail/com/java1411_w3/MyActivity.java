@@ -1,53 +1,40 @@
-package android.fullsail.com.java1422week3;
+package android.fullsail.com.java1411_w3;
 
 import android.app.Activity;
-import android.content.Context;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 
 
 public class MyActivity extends Activity {
 
-    // Views
-    private Spinner handsetSpinner;
-    private ListView handsetListView;
-    private TextView test;
-
-
-    // Data Collection Assignment
-    public HashMap<String, Handset> handsetMap = new HashMap<String, Handset>();
-    private ArrayList<Handset> handsetArrayList;
+    // assign views
+    private Spinner spinner;
+    private ArrayList handsetArrayList;
+    // ListView listView = (ListView) findViewById(R.id.hList);
 
 
 
-    // orientation detection
-    Display getOrient = getWindowManager().getDefaultDisplay();
-    int orientation = getOrient.getRotation();
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        // assign views
-        handsetListView = (ListView) findViewById(R.id.hList);
-        handsetSpinner = (Spinner) findViewById(R.id.spinner);
+        spinner = (Spinner) findViewById(R.id.spinner);
         handsetArrayList = new ArrayList<Handset>();
+        ArrayAdapter<String> hAdapter;
 
         // assign object information
         handsetArrayList.add(new Handset("iPhone 5c", "A6", "Sept. 2013"));
@@ -57,12 +44,12 @@ public class MyActivity extends Activity {
         handsetArrayList.add(new Handset("Galaxy S5", "Snapdragon", "May 2014"));
         handsetArrayList.add(new Handset("Galaxy Note 4", "Snapdragon", "Oct. 2014"));
 
+        // test assignment to Spinner.
+        ArrayList<String> hList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.handsets)));
 
+        hAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1);
 
-        String test = String.valueOf(orientation);
-
-       Log.d("Orientation: ", test);
-
+        spinner.setAdapter((hAdapter));
 
 
 
