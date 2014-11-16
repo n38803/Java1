@@ -6,6 +6,7 @@
 
 
     <string-array name="handsets">
+        <item>Please Make a Selection.</item>
         <item>iPhone 6</item>
         <item>iPhone 6Plus</item>
         <item>Galaxy S5</item>

@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:hint="Please make a selection."
         android:id="@+id/textView"
         android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
