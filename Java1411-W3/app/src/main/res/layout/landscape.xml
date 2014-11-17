@@ -7,13 +7,13 @@
     <ListView
         android:layout_width="276dp"
         android:layout_height="wrap_content"
-        android:id="@+id/listView" />
+        android:id="@+id/landlistview" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textview"
+        android:id="@+id/landtextView"
         android:hint="Please make a selection."
         android:layout_weight="1" />
 </LinearLayout>
