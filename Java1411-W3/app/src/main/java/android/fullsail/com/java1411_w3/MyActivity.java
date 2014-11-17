@@ -2,8 +2,10 @@ package android.fullsail.com.java1411_w3;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,107 +32,114 @@ public class MyActivity extends Activity {
     // assign views
     private Spinner hspinner;
     private ArrayList<Handset> handsetArrayList;
-    // ListView listView = (ListView) findViewById(R.id.hList);
+    private ListView hListView;
     public TextView hText;
     public int selected;
 
+    @Override
+    public void onConfigurationChanged(Configuration myConfig){
+        // orientation detection
+        int orientation = getWindowManager().getDefaultDisplay().getRotation();
+        Log.d("DEBUGGING: ", "Orientation Change");
 
-    /*
-    private void setSimpleAdapter() {
-        // Field identifiers
-        final String name = "name";
-        final String processor = "processor";
-        final String release = "release";
-        // List of elements for our adapter.
-        ArrayList<HashMap<String, String>> elements = new ArrayList<HashMap<String,String>>();
-        // Goes through each employee and maps the data elements to a String key.
-        for(Handset handset : handsetArrayList) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put(name, handset.getName());
-            map.put(processor, handset.getProcessor());
-            map.put(release, handset.getProcessor());
-            elements.add(map);
+        // if orientation has not changed from vertical
+        if(orientation == 0 || orientation == 180)
+        {
+            setContentView(R.layout.activity_my);
+            Log.d("DEBUGGING", "Orientation: " + orientation);
         }
-        // Creating an array of our keys
-        String[] keys = new String[] {
-                name, processor, release
-        };
-        // Creating an array of our list item components.
-        // Indices must match the keys array.
-        int[] views = new int[] {
-                R.id.textView,
-                R.id.textView,
-                R.id.textView
-        };
-        // Creating a new SimpleAdapter that maps values to views using our keys and views arrays.
-        SimpleAdapter adapter = new SimpleAdapter(this, elements, R.layout.activity_my, keys, views);
-        hspinner.setAdapter(adapter);
+
+        // if orientation has shifted to horizontal
+        else if(orientation == 90 || orientation == 270)
+        {
+            setContentView(R.layout.landscape);
+        }
     }
-    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my);
+
+
+        // orientation detection
+        int orientation = getWindowManager().getDefaultDisplay().getRotation();
+
+
+
+        // if orientation has not changed from vertical
+        if(orientation == 0 || orientation == 180)
+        {
+            setContentView(R.layout.activity_my);
+            Log.d("DEBUGGING", "Orientation: " + orientation);
+        }
+
+        // if orientation has shifted to horizontal
+        else if(orientation == 90 || orientation == 270)
+        {
+            setContentView(R.layout.landscape);
+        }
+
 
         selected = 0;
 
-        hspinner = (Spinner) findViewById(R.id.spinner);
         handsetArrayList = new ArrayList<Handset>();
         ArrayAdapter<String> hAdapter;
 
         final HashMap<Integer, Handset> hMap = new HashMap<Integer, Handset>();
         hText = (TextView) findViewById(R.id.textView);
 
-        // assign object information
-        Handset noselection = new Handset();
-        noselection.setName("");
-        noselection.setProcessor("");
-        noselection.setRelease("");
-        hMap.put(0, noselection);
+                // assign object information
+                Handset noselection = new Handset();
+                noselection.setName("");
+                noselection.setProcessor("");
+                noselection.setRelease("");
+                hMap.put(0, noselection);
 
-        Handset isix = new Handset();
-        isix.setName("iPhone 6");
-        isix.setProcessor("Apple A8");
-        isix.setRelease("Sept. 2014");
-        hMap.put(1, isix);
+                Handset isix = new Handset();
+                isix.setName("iPhone 6");
+                isix.setProcessor("Apple A8");
+                isix.setRelease("Sept. 2014");
+                hMap.put(1, isix);
 
+                Handset iplus = new Handset();
+                iplus.setName("iPhone 6Plus");
+                iplus.setProcessor("Apple A8");
+                iplus.setRelease("Sept. 2014");
+                hMap.put(2, iplus);
 
-        Handset iplus = new Handset();
-        iplus.setName("iPhone 6Plus");
-        iplus.setProcessor("Apple A8");
-        iplus.setRelease("Sept. 2014");
-        hMap.put(2, iplus);
+                Handset gsfive = new Handset();
+                gsfive.setName("Galaxy S5");
+                gsfive.setProcessor("Krait 400");
+                gsfive.setRelease("April 2014");
+                hMap.put(3, gsfive);
 
-        Handset gsfive = new Handset();
-        gsfive.setName("Galaxy S5");
-        gsfive.setProcessor("Krait 400");
-        gsfive.setRelease("April 2014");
-        hMap.put(3, gsfive);
+                Handset notefour = new Handset();
+                notefour.setName("Galaxy Note 4");
+                notefour.setProcessor("Exynos Octa 7");
+                notefour.setRelease("Oct. 2014");
+                hMap.put(4, notefour);
 
-        Handset notefour = new Handset();
-        notefour.setName("Galaxy Note 4");
-        notefour.setProcessor("Exynos Octa 7");
-        notefour.setRelease("Oct. 2014");
-        hMap.put(4, notefour);
-
-        Handset noteedge = new Handset();
-        noteedge.setName("Snapdragon 805");
-        noteedge.setProcessor("Snapdragon");
-        noteedge.setRelease("Nov. 2014");
-        hMap.put(5, noteedge);
-
+                Handset noteedge = new Handset();
+                noteedge.setName("Snapdragon 805");
+                noteedge.setProcessor("Snapdragon");
+                noteedge.setRelease("Nov. 2014");
+                hMap.put(5, noteedge);
 
 
+        // assign views
+        hspinner = (Spinner) findViewById(R.id.spinner);
+        hListView = (ListView) findViewById(R.id.listView);
 
 
-
-        // Adapter declaration & assignment to spinner
+        // Adapter declaration
         ArrayList<String> hList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.handsets)));
-
         hAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, hList);
 
+
+
+        // set adapters
         hspinner.setAdapter((hAdapter));
+        //hListView.setAdapter((hAdapter));
 
         // spinner event listener
         hspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -140,19 +149,10 @@ public class MyActivity extends Activity {
 
                 // grabs selected item's position
                 selected = hspinner.getSelectedItemPosition();
-                hText.setText("Device Name:\n" + hMap.get(selected).getName()
-                            + "\nProcessor:\n" + hMap.get(selected).getProcessor()
-                            + "\nReleased:\n" + hMap.get(selected).getRelease()
+                hText.setText("DEVICE NAME:\n\n" + hMap.get(selected).getName()
+                                + "\n\n\nPROCESSOR:\n\n" + hMap.get(selected).getProcessor()
+                                + "\n\n\nRELEASE DATE:\n\n" + hMap.get(selected).getRelease()
                 );
-
-
-                // String selection = hMap.get(selected).toString();
-
-               // hText.setText("Name: " + hMap.get(selected).getName() + "\nProcessor: " + hMap.get(selected).getProcessor() + "\nRelease: " + hMap.get(selected).getRelease());
-
-
-                // change textview to match item position (matches hashmap key)
-               // hText.setText(name);
 
             }
 
@@ -163,6 +163,31 @@ public class MyActivity extends Activity {
 
             }
         });
+
+        /*
+        // list event listener
+        hListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                // grabs selected item's position
+                selected = hListView.getSelectedItemPosition();
+                hText.setText("DEVICE NAME:\n" + handsetArrayList.get(selected).getName()
+                                + "\n\nPROCESSOR:\n" + handsetArrayList.get(selected).getProcessor()
+                                + "\n\nRELEASE DATE:\n" + handsetArrayList.get(selected).getRelease()
+                );
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                hText.setText("Please make a selection.");
+
+            }
+        });
+        */
 
 
 
