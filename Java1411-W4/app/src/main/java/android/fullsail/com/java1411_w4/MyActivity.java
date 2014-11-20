@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import org.apache.commons.compress.utils.IOUtils;
+
 
 public class MyActivity extends Activity {
 
@@ -36,6 +41,38 @@ public class MyActivity extends Activity {
             if(netInfo.isConnected()) {
 
                 // Connected to data type without bias
+
+                // The URL string that points to our web resource.
+                String urlString = "http://data.nasa.gov/api-info/";
+
+                // Creating the URL object that points to our web resource.
+                URL url = new URL(urlString);
+
+                // Establish a connection to the resource at the URL.
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                // Setting connection properties.
+                connection.setRequestMethod("GET");
+                connection.setConnectTimeout(10000); // 10 seconds
+                connection.setReadTimeout(10000); // 10 seconds
+
+                // Refreshing the connection.
+                connection.connect();
+
+                // Optionally check the status code. Status 200 means everything went OK.
+                int statusCode = connection.getResponseCode();
+
+                // Getting the InputStream with the data from our resource.
+                InputStream stream = connection.getInputStream();
+
+                // Reading data from the InputStream using the Apache library.
+                String resourceData = IOUtils.toString(stream);
+
+                // Cleaning up our connection resources.
+                stream.close();
+                connection.disconnect();
+
+                // The resourceData string should now have our data.
 
             }
         else if (netInfo == null) {
