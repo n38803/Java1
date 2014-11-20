@@ -4,17 +4,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+
 import org.apache.commons.compress.utils.IOUtils;
+import org.json.JSONObject;
 
 
 public class MyActivity extends Activity {
+
+    final String TAG = "DEBUGGING";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,39 +51,21 @@ public class MyActivity extends Activity {
 
             if(netInfo.isConnected()) {
 
-                // Connected to data type without bias
+                Button searchButton = (Button) findViewById(R.id.button);
+                searchButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TextView userInput = (TextView) findViewById(R.id.userinput);
+                        String word = userInput.getText().toString();
+                        try {
+                            String baseURL = "http://words.bighugelabs.com/api/2/7b7810fb805241407b7d474b9b8ccfef/";
+                            URL queryURL = new URL(baseURL + word + "/json");
 
-                // The URL string that points to our web resource.
-                String urlString = "http://data.nasa.gov/api-info/";
-
-                // Creating the URL object that points to our web resource.
-                URL url = new URL(urlString);
-
-                // Establish a connection to the resource at the URL.
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-                // Setting connection properties.
-                connection.setRequestMethod("GET");
-                connection.setConnectTimeout(10000); // 10 seconds
-                connection.setReadTimeout(10000); // 10 seconds
-
-                // Refreshing the connection.
-                connection.connect();
-
-                // Optionally check the status code. Status 200 means everything went OK.
-                int statusCode = connection.getResponseCode();
-
-                // Getting the InputStream with the data from our resource.
-                InputStream stream = connection.getInputStream();
-
-                // Reading data from the InputStream using the Apache library.
-                String resourceData = IOUtils.toString(stream);
-
-                // Cleaning up our connection resources.
-                stream.close();
-                connection.disconnect();
-
-                // The resourceData string should now have our data.
+                        } catch (Exception e) {
+                            Log.e(TAG, "Invalid query for word: " + word);
+                        }
+                    }
+                });
 
             }
         else if (netInfo == null) {
@@ -87,7 +80,6 @@ public class MyActivity extends Activity {
 
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,5 +98,61 @@ public class MyActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class GetWordTask extends AsyncTask<URL, Integer, JSONObject> {
+        final String TAG = "ASYNCTASK DEBUGGING";
+
+        @Override
+        protected JSONObject doInBackground(URL... urls) {
+
+            String jsonString = "";
+
+            // COLLECT STRING RESPONSE FROM API
+            for(URL queryURL : urls){
+                try{
+                    URLConnection datacon = queryURL.openConnection();
+                    jsonString = IOUtils.toString(datacon.getInputStream());
+                    break;
+                } catch (Exception e){
+                    Log.e(TAG, "Could not establish URLConnection to " + queryURL.toString());
+                }
+            }
+
+            Log.i(TAG, "Received Data: " + jsonString);
+
+
+            // CONVERT API STRING RESPONSE TO JSONOBJECT
+
+            JSONObject apiData;
+
+            try{
+                apiData = new JSONObject(jsonString);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Cannot convert API response to JSON");
+                apiData = null;
+            }
+
+            try{
+                apiData = (apiData != null) ? apiData.getJSONObject("").getJSONObject("") : null;
+                Log.i(TAG, "API JSON data received: " + apiData.toString());
+            } catch (Exception e) {
+                Log.e(TAG, "Could not parse data record from response: " + apiData);
+                apiData = null;
+            }
+
+            return apiData;
+        }
+
+        protected void onPostExecute(JSONObject apiData) {
+
+            // this is where you populate your object and push to UI
+            Thesaurus result = new Thesaurus(apiData);
+            updateDisplay(result);
+
+        }
+
+
     }
 }
