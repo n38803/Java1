@@ -19,7 +19,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
-import org.apache.commons.compress.utils.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 
@@ -38,39 +38,38 @@ public class MyActivity extends Activity {
         // find active connection type (assigned to object)
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
 
-        // Verify whether or not connection exists
+        // IF CONNECTION DETECTED
         if(netInfo != null) {
-            if(netInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
 
-                // Connected to mobile data
-
-            } else if(netInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-
-                // Connected to WiFi data
-            }
+            Log.i(TAG, "Connection detected!");
 
             if(netInfo.isConnected()) {
+
+                Log.i(TAG, "isConnected Complete");
 
                 Button searchButton = (Button) findViewById(R.id.button);
                 searchButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         TextView userInput = (TextView) findViewById(R.id.userinput);
-                        String word = userInput.getText().toString();
+                        String userWord = userInput.getText().toString();
                         try {
                             String baseURL = "http://words.bighugelabs.com/api/2/7b7810fb805241407b7d474b9b8ccfef/";
-                            URL queryURL = new URL(baseURL + word + "/json");
+                            URL queryURL = new URL(baseURL + userWord + "/json");
 
                         } catch (Exception e) {
-                            Log.e(TAG, "Invalid query for word: " + word);
+                            Log.e(TAG, "Invalid query for word: " + userWord);
                         }
                     }
                 });
 
             }
+
+        // IF NO DATA CONNECTION FOUND
         else if (netInfo == null) {
 
-                // There is no data connection
+                // pop up error
+                Log.e(TAG, "No data network connection detected");
             }
         }
 
@@ -100,19 +99,33 @@ public class MyActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void updateDisplay(Thesaurus word){
+        ((TextView) findViewById(R.id.word)).setText((word.getName()));
+        ((TextView) findViewById(R.id.type)).setText((word.getDescription()));
+        //((TextView) findViewById(R.id.result)).setText((word.getDescription()));
+
+    }
+
+
+
+
     private class GetWordTask extends AsyncTask<URL, Integer, JSONObject> {
         final String TAG = "ASYNCTASK DEBUGGING";
 
         @Override
         protected JSONObject doInBackground(URL... urls) {
 
+            Log.i(TAG, "You are now in background computing");
+
             String jsonString = "";
 
             // COLLECT STRING RESPONSE FROM API
             for(URL queryURL : urls){
                 try{
-                    URLConnection datacon = queryURL.openConnection();
-                    jsonString = IOUtils.toString(datacon.getInputStream());
+                    URLConnection connected = queryURL.openConnection();
+                    jsonString = IOUtils.toString(connected.getInputStream());
+                    Log.i(TAG, "URL query successful - " + jsonString);
                     break;
                 } catch (Exception e){
                     Log.e(TAG, "Could not establish URLConnection to " + queryURL.toString());
@@ -128,6 +141,7 @@ public class MyActivity extends Activity {
 
             try{
                 apiData = new JSONObject(jsonString);
+                Log.i(TAG, "Object creation Complete");
 
             } catch (Exception e) {
                 Log.e(TAG, "Cannot convert API response to JSON");
@@ -135,7 +149,7 @@ public class MyActivity extends Activity {
             }
 
             try{
-                apiData = (apiData != null) ? apiData.getJSONObject("").getJSONObject("") : null;
+                apiData = (apiData != null) ? apiData.getJSONObject("noun").getJSONObject("syn") : null;
                 Log.i(TAG, "API JSON data received: " + apiData.toString());
             } catch (Exception e) {
                 Log.e(TAG, "Could not parse data record from response: " + apiData);
@@ -146,10 +160,10 @@ public class MyActivity extends Activity {
         }
 
         protected void onPostExecute(JSONObject apiData) {
-
+            Log.i(TAG, "You have made it to post execution");
             // this is where you populate your object and push to UI
-            Thesaurus result = new Thesaurus(apiData);
-            updateDisplay(result);
+            //Thesaurus result = new Thesaurus(apiData);
+            //updateDisplay(result);
 
         }
 

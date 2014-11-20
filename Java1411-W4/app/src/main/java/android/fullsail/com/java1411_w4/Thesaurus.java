@@ -19,11 +19,13 @@ public class Thesaurus {
         mName = _name;
         mDescription = _description;
     }
+
+
     // Getter Methods
     public String getName() {
         return mName;
     }
-    public String getmDescription() {
+    public String getDescription() {
         return mDescription;
     }
 
@@ -33,7 +35,7 @@ public class Thesaurus {
     public void setName(String _name) {
         mName = _name;
     }
-    public void setmDescription(String _description) {
+    public void setDescription(String _description) {
         mDescription = _description;
     }
 

@@ -39,7 +39,7 @@ public class MyActivity extends Activity {
 
         selected = 0;
 
-        handsetArrayList = new ArrayList<Handset>();
+        handsetArrayList = new ArrayList<Handset>( ;
         ArrayAdapter<String> hAdapter;
 
                 // assign object information
