@@ -25,7 +25,18 @@ import org.json.JSONObject;
 
 public class MyActivity extends Activity {
 
+    // variables
     final String TAG = "DEBUGGING";
+    public String longitude;
+    public String latitude;
+
+    // views
+    public TextView longInput;
+    public TextView latInput;
+    public Button longSubmit;
+    public Button latSubmit;
+    public Button searchButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +56,72 @@ public class MyActivity extends Activity {
 
             if(netInfo.isConnected()) {
 
-                Log.i(TAG, "isConnected Complete");
+                // Build views
+                longInput = (TextView) findViewById(R.id.longinput);
+                latInput = (TextView) findViewById(R.id.latinput);
+                longSubmit = (Button) findViewById(R.id.longsubmit);
+                latSubmit = (Button) findViewById(R.id.latsubmit);
+                searchButton = (Button) findViewById(R.id.search);
 
-                Button searchButton = (Button) findViewById(R.id.button);
+
+                // LONGITUDE button event listener
+                longSubmit.setOnClickListener(new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+
+                          //grab user input for longitude
+                          longitude = longInput.getText().toString();
+                      }
+
+                });
+
+
+                // LONGITUDE button event listener
+                latSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //grab user input for latitude
+                        latitude = latInput.getText().toString();
+                    }
+
+                });
+
+
+
+
                 searchButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        TextView userInput = (TextView) findViewById(R.id.userinput);
-                        String userWord = userInput.getText().toString();
-                        try {
-                            String baseURL = "http://words.bighugelabs.com/api/2/7b7810fb805241407b7d474b9b8ccfef/";
-                            URL queryURL = new URL(baseURL + userWord + "/json");
 
-                        } catch (Exception e) {
-                            Log.e(TAG, "Invalid query for word: " + userWord);
+                        // ERROR DETECTION FOR LACK OF USER INPUT
+                        if (longitude != null && latitude != null){
+
+                            try {
+
+                                String baseURL = "https://maps.googleapis.com/maps/api/timezone/json?location=";
+                                String timestamp = "timestamp=1331161200";
+                                String key = "AIzaSyAvhB5TTfvZY3QQFUgIP_l4-0eTKIDkSdM";
+                                // example URL: https://maps.googleapis.com/maps/api/timezone/json?location=LONGTITUDE,LATITUDE&timestamp=1331161200&key=API_KEY
+
+                                URL queryURL = new URL(baseURL + longitude + "," + latitude + "&" + timestamp + "&" + key);
+                                Log.i(TAG, "URL: " + queryURL);
+
+                            } catch (Exception e) {
+                                Log.e(TAG, "Invalid query for location: " + longitude + " , " + latitude);
+                            }
+
+
+
                         }
+
+                        else {
+
+                            // ERROR POP UP
+                            Log.e(TAG, "Invalid Longitude: " + longitude + " & Invalid Latitude: " + latitude);
+
+                        }
+
                     }
                 });
 
@@ -100,9 +162,11 @@ public class MyActivity extends Activity {
     }
 
 
-    private void updateDisplay(Thesaurus word){
-        ((TextView) findViewById(R.id.word)).setText((word.getName()));
-        ((TextView) findViewById(R.id.type)).setText((word.getDescription()));
+    private void updateDisplay(Timezones timezone){
+        ((TextView) findViewById(R.id.timezone)).setText((timezone.getZone()));
+        ((TextView) findViewById(R.id.timetype)).setText((timezone.getID()));
+        ((TextView) findViewById(R.id.status)).setText((timezone.getStatus()));
+        ((TextView) findViewById(R.id.error)).setText((timezone.getError()));
         //((TextView) findViewById(R.id.result)).setText((word.getDescription()));
 
     }

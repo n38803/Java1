@@ -17,48 +17,90 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLongitude">
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/userinput"
-            android:layout_below="@+id/linearLayout"
-            android:layout_toRightOf="@+id/linearLayout"
-            android:layout_toEndOf="@+id/linearLayout"
-            android:layout_weight="1"/>
+            android:id="@+id/longinput"
+            android:layout_below="@+id/linearLongitude"
+            android:layout_toRightOf="@+id/linearLongitude"
+            android:layout_toEndOf="@+id/linearLongitude"
+            android:layout_weight="1"
+            android:autoText="false"
+            android:inputType="number"
+            android:hint="Please Input Longitude"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SEARCH"
-            android:id="@+id/button"/>
-
+            android:text="SAVE"
+            android:id="@+id/longsubmit"/>
 
         </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/latlayout">
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/latinput"
+            android:layout_below="@+id/latlayout"
+            android:layout_toRightOf="@+id/latlayout"
+            android:layout_toEndOf="@+id/latlayout"
+            android:layout_weight="1"
+            android:inputType="number"
+            android:hint="Please Input Latitude"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAVE"
+            android:id="@+id/latsubmit"/>
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SEARCH FOR TIMEZONE"
+        android:id="@+id/search"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20pt"
-            android:text="WORD"
-            android:id="@+id/word"/>
+            android:text="TIME ZONE"
+            android:id="@+id/timezone"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="12pt"
-        android:text="Type"
-        android:id="@+id/type"/>
+        android:text="TimeZone ID"
+        android:id="@+id/timetype"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="8pt"
-        android:text="Results"
-        android:id="@+id/result"/>
+        android:text="Search Status:"
+        android:id="@+id/status"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="8pt"
+        android:text="Error:"
+        android:id="@+id/error"/>
 
 
 
