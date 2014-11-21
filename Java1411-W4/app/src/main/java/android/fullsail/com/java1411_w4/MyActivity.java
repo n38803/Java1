@@ -107,6 +107,10 @@ public class MyActivity extends Activity {
                                 URL queryURL = new URL(baseURL + longitude + "," + latitude + "&" + timestamp + "&" + key);
                                 Log.i(TAG, "URL: " + queryURL);
 
+                                // execute task
+                                new GetWordTask().execute(queryURL);
+
+
                             } catch (Exception e) {
                                 Log.e(TAG, "Invalid query for location: " + longitude + " , " + latitude);
                             }
@@ -167,7 +171,7 @@ public class MyActivity extends Activity {
         ((TextView) findViewById(R.id.timetype)).setText((timezone.getID()));
         ((TextView) findViewById(R.id.status)).setText((timezone.getStatus()));
         ((TextView) findViewById(R.id.error)).setText((timezone.getError()));
-        //((TextView) findViewById(R.id.result)).setText((word.getDescription()));
+
 
     }
 
@@ -226,8 +230,8 @@ public class MyActivity extends Activity {
         protected void onPostExecute(JSONObject apiData) {
             Log.i(TAG, "You have made it to post execution");
             // this is where you populate your object and push to UI
-            //Thesaurus result = new Thesaurus(apiData);
-            //updateDisplay(result);
+            Timezones result = new Timezones(apiData);
+            updateDisplay(result);
 
         }
 

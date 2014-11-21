@@ -1,5 +1,9 @@
 package android.fullsail.com.java1411_w4;
 
+import android.util.Log;
+
+import org.json.JSONObject;
+
 /**
  * Created by Shaun on 11/20/2014.
  */
@@ -23,6 +27,19 @@ public class Timezones {
         mError = _error;
 
     }
+
+    public Timezones(JSONObject tzData){
+        try{
+            mZone = tzData.getString("timeZoneName");
+            mID = tzData.getString("timeZoneId");
+            mStatus = tzData.getString("status");
+            mError = tzData.getString("errorMessage");
+        } catch (Exception e) {
+            Log.e("OBJECT COMPILING ERROR: ", "Error Updating Display");
+        }
+
+    }
+
 
 
     // Getter Methods
