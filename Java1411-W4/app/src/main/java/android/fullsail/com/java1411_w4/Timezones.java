@@ -14,17 +14,19 @@ public class Timezones {
     private String mID;
     private String mStatus;
     private String mError;
+    private String mOffset;
 
 
     // Class constructor
     public Timezones() {
-        mZone = mID  = mStatus = mError = "";
+        mZone = mID  = mStatus = mError = mOffset = "";
     }
-    public Timezones(String _zone, String _id, String _status, String _error) {
+    public Timezones(String _zone, String _id, String _status, String _error, String _offset) {
         mZone = _zone;
         mID = _id;
         mStatus = _status;
         mError = _error;
+        mOffset = _offset;
 
     }
 
@@ -34,6 +36,7 @@ public class Timezones {
             mID = tzData.getString("timeZoneId");
             mStatus = tzData.getString("status");
             mError = tzData.getString("errorMessage");
+            mOffset = tzData.getString("rawOffset");
         } catch (Exception e) {
             Log.e("OBJECT COMPILING ERROR: ", "Error Updating Display");
         }
@@ -55,6 +58,9 @@ public class Timezones {
     public String getError() {
         return mError;
     }
+    public String getOffset() {
+        return mOffset;
+    }
 
 
 
@@ -71,6 +77,9 @@ public class Timezones {
     }
     public void setError(String _error) {
         mError = _error;
+    }
+    public void setOffset(String _offset) {
+        mOffset = _offset;
     }
 
 

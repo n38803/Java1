@@ -29,7 +29,7 @@
             android:layout_weight="1"
             android:autoText="false"
             android:inputType="number"
-            android:hint="Please Input Longitude"/>
+            android:hint="Input Longitude + Click Save"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
             android:layout_toEndOf="@+id/latlayout"
             android:layout_weight="1"
             android:inputType="number"
-            android:hint="Please Input Latitude"/>
+            android:hint="Input Latitude + Click Save"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -78,28 +78,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20pt"
-            android:text="TIME ZONE"
             android:id="@+id/timezone"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="12pt"
-        android:text="TimeZone ID"
         android:id="@+id/timetype"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="8pt"
-        android:text="Search Status:"
+        android:text="Query Status:"
         android:id="@+id/status"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="8pt"
-        android:text="Error:"
         android:id="@+id/error"/>
 
 
