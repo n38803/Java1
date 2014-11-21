@@ -22,6 +22,8 @@ import java.net.URLEncoder;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
+import javax.net.ssl.HttpsURLConnection;
+
 
 public class MyActivity extends Activity {
 
@@ -29,6 +31,7 @@ public class MyActivity extends Activity {
     final String TAG = "DEBUGGING";
     public String longitude;
     public String latitude;
+    public URL queryURL;
 
     // views
     public TextView longInput;
@@ -104,11 +107,11 @@ public class MyActivity extends Activity {
                                 String key = "AIzaSyAvhB5TTfvZY3QQFUgIP_l4-0eTKIDkSdM";
                                 // example URL: https://maps.googleapis.com/maps/api/timezone/json?location=LONGTITUDE,LATITUDE&timestamp=1331161200&key=API_KEY
 
-                                URL queryURL = new URL(baseURL + longitude + "," + latitude + "&" + timestamp + "&" + key);
+                                queryURL = new URL(baseURL + longitude + "," + latitude + "&" + timestamp + "&" + key);
                                 Log.i(TAG, "URL: " + queryURL);
 
                                 // execute task
-                                new GetWordTask().execute(queryURL);
+                                new GetTimezoneTask().execute(queryURL);
 
 
                             } catch (Exception e) {
@@ -178,22 +181,47 @@ public class MyActivity extends Activity {
 
 
 
-    private class GetWordTask extends AsyncTask<URL, Integer, JSONObject> {
+    private class GetTimezoneTask extends AsyncTask<URL, Integer, JSONObject> {
         final String TAG = "ASYNCTASK DEBUGGING";
 
         @Override
         protected JSONObject doInBackground(URL... urls) {
 
-            Log.i(TAG, "You are now in background computing");
+            Log.i(TAG, "You are now in background computing\nBG URL: " + queryURL);
 
             String jsonString = "";
 
             // COLLECT STRING RESPONSE FROM API
             for(URL queryURL : urls){
                 try{
-                    URLConnection connected = queryURL.openConnection();
-                    jsonString = IOUtils.toString(connected.getInputStream());
-                    Log.i(TAG, "URL query successful - " + jsonString);
+                    //URLConnection connected = queryURL.openConnection();
+                    //HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                    HttpsURLConnection connection = (HttpsURLConnection) queryURL.openConnection();
+
+                    // Setting connection properties.
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(10000); // 10 seconds
+                    connection.setReadTimeout(10000); // 10 seconds
+                    // Refreshing the connection.
+                    connection.connect();
+                    // Optionally check the status code. Status 200 means everything went OK.
+                    int statusCode = connection.getResponseCode();
+                    // Getting the InputStream with the data from our resource.
+                    InputStream stream = connection.getInputStream();
+                    // Reading data from the InputStream using the Apache library.
+                    String resourceData = IOUtils.toString(stream);
+                    // Cleaning up our connection resources.
+                    stream.close();
+                    connection.disconnect();
+                    // The resourceData string should now have our data.
+
+
+
+
+                    //jsonString = IOUtils.toString(connection.getInputStream());
+
+                    Log.i(TAG, "URL query successful - " + resourceData);
                     break;
                 } catch (Exception e){
                     Log.e(TAG, "Could not establish URLConnection to " + queryURL.toString());
